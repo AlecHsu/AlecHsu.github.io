@@ -1,0 +1,36 @@
+body {
+  padding: 0px;
+  margin: 0px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  position: relative;
+}
+
+a {
+  color: #00B7FF;
+}
+.section{
+	position: relative;
+	padding-top: 12%;
+	padding-bottom: 20%;
+	text-align: center;
+}
+
+#home, #skills{
+	background-color: #eaeaea;
+}
+
+#profile .col-md-4 .glyphicon{
+	position: relative;
+	padding: 3%;
+	margin-top: 15%;
+	font-size: 60px;
+	border: 5px solid #fff;
+}
+
+#profile .col-md-4 .glyphicon:hover{
+	border: 5px solid #000;
+}
+
+.progress{
+	height: 30px;
+}
