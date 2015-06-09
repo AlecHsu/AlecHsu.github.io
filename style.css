@@ -6,8 +6,24 @@ body {
 }
 
 a {
-  color: #00B7FF;
+  color: #ffffff;
+  /*#00B7FF*/
+  text-decoration: none;
 }
+
+.navbar-toggle{
+	background-color: #70809f;
+	border-color: #ffffff;
+}
+
+.icon-bar{
+	background-color: #ffffff;
+}
+
+.navbar{
+	background-color: #70809f;
+}
+
 .section{
 	position: relative;
 	padding-top: 12%;
@@ -16,19 +32,39 @@ a {
 }
 
 #home, #skills{
-	background-color: #eaeaea;
+	background-color: #ffffff;
+}
+
+#profilepic{
+	background-image: url("images/Alec.jpg");
+	background-position: center 10%;
+	background-size: 90%;
+	position:relative;
+	width: 15%;
+	height: 180px;
+	margin: auto;
+	border-radius: 50%;
+}
+
+/*#home img{
+	position: relative;
+}*/
+
+#profile, #contact{
+	background-color: #70809f;
+	color: #ffffff;
 }
 
 #profile .col-md-4 .glyphicon{
 	position: relative;
-	padding: 3%;
+	padding: 4%;
 	margin-top: 15%;
 	font-size: 60px;
-	border: 5px solid #fff;
+	border: 5px solid #cfcfcf;
 }
 
 #profile .col-md-4 .glyphicon:hover{
-	border: 5px solid #000;
+	opacity: 0.4;
 }
 
 .progress{
