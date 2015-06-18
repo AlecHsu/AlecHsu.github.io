@@ -1,7 +1,7 @@
 body {
   padding: 0px;
   margin: 0px;
-  font: 14px 'Quicksand', sans-serif;
+  font: 16px 'Quicksand', sans-serif;
   text-align:center;
   position: relative;
 }
@@ -35,20 +35,28 @@ a {
 	background-color: #ffffff;
 }
 
+#home{
+	padding-bottom: 18%;
+}
+
 #profilepic{
 	position:relative;
 	width: 15%;
 	height: 0;
 	padding-bottom: 18%;
 	margin: auto;
-	margin-top: 3%;
 	background-image: url("images/Alec.jpg");
 	background-position: center 10%;
 	background-size: 90%;
 	border-radius: 50%;
 }
 
-@media(max-width: 600px){
+@media(max-width: 768px){
+	#home{
+		padding-top: 45%;
+		padding-bottom: 45%
+	}
+
 	#profilepic{
 		position: relative;
 		width: 25%;
