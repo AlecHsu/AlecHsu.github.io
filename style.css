@@ -52,6 +52,7 @@ a {
 }
 
 @media(max-width: 768px){
+	
 	#home{
 		padding-top: 45%;
 		padding-bottom: 45%

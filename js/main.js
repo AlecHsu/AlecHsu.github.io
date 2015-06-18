@@ -1,18 +1,14 @@
-var scroll = function() {
+function scroll() {
 	$('body').scrollspy({ target: '#navbar' });
 };
 
-var pullright = function() {
+function pullright() {
 	$(window).resize(function() {
-		if ($(window).width() <= 768) {
-			$('#navbar').removeClass('pull-right');
-		}else{
-			$('#navbar').addClass('pull-right');
-		};	
+		detect();
 	});
 };
 
-var smooth = function() {
+function smooth() {
 	$('#navbar a, .slide_to_profile').click(function() {
 		$('body').animate({
 			scrollTop: $( $(this).attr('href') ).offset().top
@@ -28,7 +24,16 @@ var smooth = function() {
 	});
 };
 
+function detect(){
+	if ($(window).width() >= 768) {
+		$('#navbar').addClass('pull-right');
+	}else{
+		$('#navbar').removeClass('pull-right');
+	};	
+};
 
-var i = [scroll, smooth, pullright]
 
-$(document).ready(i);
+var funcs = [scroll, smooth, pullright, detect]
+
+
+$(document).ready(funcs);
