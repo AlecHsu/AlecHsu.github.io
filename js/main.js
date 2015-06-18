@@ -7,6 +7,10 @@ var smooth = function() {
 		$('body').animate({
 			scrollTop: $( $(this).attr('href') ).offset().top
 		}, 500);
+
+		if($('#navbar').css('display') !='none'){
+            $(".navbar-toggle").click();
+        };
 		return false;
 	});
 };

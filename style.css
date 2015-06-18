@@ -41,12 +41,20 @@ a {
 	height: 0;
 	padding-bottom: 18%;
 	margin: auto;
-	margin-top: 4%;
+	margin-top: 3%;
 	background-image: url("images/Alec.jpg");
 	background-position: center 10%;
 	background-size: 90%;
 	border-radius: 50%;
 }
+
+@media(max-width: 600px){
+	#profilepic{
+		position: relative;
+		width: 25%;
+		padding-bottom: 30%;
+	}
+} 
 
 /*#home img{
 	position: relative;
