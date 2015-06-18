@@ -1,7 +1,8 @@
 body {
   padding: 0px;
   margin: 0px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px 'Quicksand', sans-serif;
+  text-align:center;
   position: relative;
 }
 
@@ -28,7 +29,6 @@ a {
 	position: relative;
 	padding-top: 12%;
 	padding-bottom: 20%;
-	text-align: center;
 }
 
 #home, #skills{
@@ -36,14 +36,14 @@ a {
 }
 
 #profilepic{
+	position:relative;
+	width: 15%;
+	height: 0;
+	padding-bottom: 18%;
+	margin: auto;
 	background-image: url("images/Alec.jpg");
 	background-position: center 10%;
-	background-size: 110%;
-	background-repeat: no-repeat;
-	margin: auto;
-	position: relative;
-	height: 13em;
-	width: 15%;
+	background-size: 90%;
 	border-radius: 50%;
 }
 
