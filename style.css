@@ -1,91 +1,121 @@
-body {
-  padding: 0px;
-  margin: 0px;
-  font: 16px 'Quicksand', 微軟正黑體, sans-serif;
-  text-align:center;
-  position: relative;
+body{
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	font-family: segoe ui, 微軟正黑體, 'sans-serif';
 }
 
-a {
-  color: #ffffff;
-  /*#00B7FF*/
-  text-decoration: none;
+a{
+	color: black;
 }
 
-.navbar-toggle{
-	background-color: #70809f;
-	border-color: #ffffff;
-}
-
-.icon-bar{
-	background-color: #ffffff;
+a:hover { 
+    text-decoration: none;
 }
 
 .navbar{
-	background-color: #70809f;
+	min-height: 0;
 }
 
-.section{
+.quizArea{
 	position: relative;
-	padding-top: 12%;
-	padding-bottom: 20%;
+	margin-top: 15%;
 }
 
-#home, #skills{
-	background-color: #ffffff;
+.wordHover{
+	cursor: pointer;
 }
 
-#home{
-	padding-bottom: 18%;
+.wordHover:hover{
+	background-color: #e8e8e8;
 }
 
-#profilepic{
-	position:relative;
-	width: 15%;
-	height: 0;
-	padding-bottom: 18%;
-	margin: auto;
-	background-image: url("images/Alec.jpg");
-	background-position: center 10%;
-	background-size: 90%;
-	border-radius: 50%;
+.answer{
+	position: relative;
+	background-color: #dfdfdf;
+	color: #555555;
+	font-weight: 550;
+	padding: 10%;
+}
+
+.btnArea{
+	position: relative;
+	margin-top: 10%;
+}
+
+.btnAnswer, .btnNext{
+	position: relative;
+	width: 80%;
+}
+
+.meaning{
+	height: 150px;
+	font-size: 20px;
 }
 
 @media(max-width: 768px){
 	
-	#home{
-		padding-top: 45%;
-		padding-bottom: 45%
-	}
-
-	#profilepic{
-		position: relative;
-		width: 25%;
-		padding-bottom: 30%;
-	}
-} 
-
-/*#home img{
+	.quizArea{
 	position: relative;
-}*/
+	margin-top: 20%;
+	}
 
-#profile, #contact{
-	background-color: #70809f;
-	color: #ffffff;
+	.meaning{
+	height: 70px;
+	}
+
+	.xsAnswer{
+	position: relative;
+	background-color: #dfdfdf;
+	color: #555555;
+	font-weight: 400;
+	padding: 5%;
+	height: 100px;
+	}
+
+	.answer{
+	position: relative;
+	font-weight: 0;
+	padding: 0;
+	}
+
+	.btnArea{
+	position: relative;
+	margin-top: 25%;
+	}
 }
 
-#profile .col-md-4 .glyphicon{
+
+@media(min-width: 769px) and (max-width: 1280px){
+	
+	.quizArea{
 	position: relative;
-	padding: 4%;
 	margin-top: 15%;
-	font-size: 60px;
-	border: 5px solid #cfcfcf;
-}
+	}
 
-#profile .col-md-4 .glyphicon:hover{
-	opacity: 0.4;
-}
+	.meaning{
+	height: 70px;
+	}
 
-.progress{
-	height: 30px;
-}
+	.xsAnswer{
+	position: relative;
+	background-color: #dfdfdf;
+	color: #555555;
+	font-weight: 400;
+	padding: 2%;
+	height: 100px;
+	}
+
+	.answer{
+	position: relative;
+	font-weight: 0;
+	padding: 0;
+	}
+
+	.btnArea{
+	position: relative;
+	margin-top: 15%;
+	}
+}	
+
+

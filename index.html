@@ -1,229 +1,125 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="QuizUrself" lang="en">
 <head>
-	<title>Alec Hsu</title>
+	<title>QuizUrself</title>
 	<meta charset='utf-8'>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+
+    <!-- Angular -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+
+    <!-- Firebase -->
+	<!-- <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script> -->
+
+    <!-- AngularFire -->
+	<script src="https://cdn.firebase.com/libs/angularfire/1.1.2/angularfire.min.js"></script>
+
+    <!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+    <!-- CSS -->
 	<link rel="stylesheet" type="text/css" href="style.css">
+
+    <!-- Google font -->
 	<link href='http://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' type='text/css'>
 </head>
 
-<body data-spy="scroll" data-target="#navbar">
 
-	<!--nav bar -->
-
-	<nav class="navbar navbar-fixed-top">
-		<div class="container">
-			<div class="navbar-header">
-				<button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#navbar">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a href="#" class="navbar-brand">ALEC</a>
-			</div>
-
-			<div id="navbar" class="collapse navbar-collapse">
-				<ul class="nav navbar-nav">
-					<li class="active">
-						<a href="#home">Home</a>
-					</li>
-
-					<li>
-						<a href="#profile">Profile</a>
-					</li>
-
-					<li>
-						<a href="#skills">Skills</a>
-					</li>
-
-					<li>
-						<a href="#contact">Contact</a>
-					</li>
-				</ul>
-			</div>
+<body ng-controller="MainController">
+	<nav class="navbar navbar-info navbar-fixed-top">
+		<div class="row">
+			<button type="button" class="col-xs-12 btn btn-info btn-lg btnList">
+				<span class="glyphicon glyphicon-th-list"></span> &nbsp QuizUrself
+			</button>
 		</div>
 	</nav>
 
-	<!-- self introduction-->
 
-	<div id="home" class="section">
-		<div class="container">
-			<div class="row">
-				<div id="profilepic"></div>
-				<!--<img src="images/Alec.jpg class="img-circle">-->
-				<!--http://graph.facebook.com/alec.hsu.56/picture?type=large -->
+	<nav class="navbar navbar-info navbar-static-top">
+	  <div class="row">
+	    <button type="button" class="col-xs-12 btn btn-default btn-lg"></button>
+	  </div>
+	</nav>
 
-				<h2>
-					I'm Alec
-				</h2>
-				<a href="#profile" class="btn btn-default btn-lg slide_to_profile" style="background-color: #70809f; color: #fff;">more</a>
+
+	<table class="table list">
+		<tr ng-repeat="(key, value) in dicts" class="row">
+			<td class="danger col-xs-4">{{ $index+1 }}</td>
+			<td class="active col-xs-4"><a ng-href="http://dictionary.reference.com/browse/{{key}}">{{ key }}</a></td>
+			<td class="info col-xs-4">{{ value }}</td>
+		</tr>
+	</table>
+
+
+	<div class="quizArea">
+		<div class="row">
+
+			<div class="col-md-4 col-xs-2"></div>
+
+			<div class="col-md-4 col-xs-8">
+				<div class="panel panel-default">
+				  <div class="panel-heading wordHover">
+					    <h3 class="panel-title word" style="font-size: 22px">{{word}}</h3>
+				  </div>
+				    <input type="text" class="form-control meaning" placeholder="What's your answer?" aria-describedby="sizing-addon1">
+				</div>
 			</div>
+
+			<div class="col-md-4 col-xs-2"></div>
+
 		</div>
 	</div>
 
-	<div id="profile" class="section">
-		<div class="container">
-			<div class="row">
-				<h2>Thank you for your visit</h2>
-			</div>
 
-			<div class="row">
-				<div class="col-md-4">
-					<span class="glyphicon glyphicon-globe img-circle"></span>
-					<h3 style="font-weight: bold">Travel</h3>
-					</br>
-					<h4>San Francisco</h4>
-					<h4>Tokyo</h4>
-					<h4>Hong Kong</h4>
-					<h4>Macau</h4>
-				</div>
-
-				<div class="col-md-4">
-					<span class="glyphicon glyphicon-film img-circle"></span>
-					<h3 style="font-weight: bold">Sports</h3>
-					</br>
-					<h4>Basketball</h4>
-					<h4>Soccer</h4>
-					<h4>Baseball</h4>
-					<h4>Table Tennis</h4>
-				</div>
-
-				<div class="col-md-4">
-					<span class="glyphicon glyphicon-off img-circle"></span>
-					<h3 style="font-weight: bold">Coding</h3>
-					</br>
-					<h4>Codecademy</h4>
-					<h4>Udemy</h4>
-					<h4>edx</h4>
-				</div>
-			</div>
-		</div>
+	<div class="xsAnswer row">
+		<div class="col-xs-12 hidden-lg"><h2 class="answer answerMobile">{{answer}}</h2></div>
 	</div>
 
-	<div id="skills" class="section">
-		<div class="container">
-			<div class="row">
-				<h1>Skills</h1>
+	<div class="btnArea row">
 
-				<br/>
+		<div class="col-sm-2"></div>
 
-				<div class="col-md-4">
-					<h3 class="text-muted">I love Coding</h3>
-				</div>
-
-				<div class="col-md-4">
-					<div class="progress">
-						<div class="progress-bar progress-bar-primary progress-bar-striped active" role="progressbar" style="width: 70%;">
-							HTML 7/10
-						</div>
-					</div>
-
-					<div class="progress">
-						<div class="progress-bar progress-bar-primary progress-bar-striped active" role="progressbar" style="width: 70%;">
-							Css 7/10
-						</div>
-					</div>
-
-					<div class="progress">
-						<div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" style="width: 70%;">
-							Javascript 7/10
-						</div>
-					</div>
-
-					<div class="progress">
-						<div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" style="width: 70%;">
-							jQuery 7/10
-						</div>
-					</div>
-				</div>
-
-				<div class="col-md-4">
-					<div class="progress">
-						<div class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" style="width: 70%;">
-							Python 7/10
-						</div>
-					</div>
-
-					<div class="progress">
-						<div class="progress-bar progress-bar-warning progress-bar-striped active" role="progressbar" style="width: 60%;">
-							AngularJS 6/10
-						</div>
-					</div>
-
-					<div class="progress">
-						<div class="progress-bar progress-bar-danger progress-bar-striped active" role="progressbar" style="width: 40%;">
-							MongoDB 4/10
-						</div>
-					</div>
-
-					<div class="progress">
-						<div class="progress-bar progress-bar-danger progress-bar-striped active" role="progressbar" style="width: 40%;">
-							Node.js 4/10
-						</div>
-					</div>
-				</div>
-			</div>
+		<div class="col-sm-2 col-xs-5">
+			<button class="btn btn-danger btn-lg btnAnswer" type="submit">answer </br> (Enter)</button>
 		</div>
-	</div>
 
-	<div id="contact" class="section">
-		<div class="container">
-			<div class="row">
-				<h2>Say Hi!</h2>
+		<div class="col-sm-4 col-xs-2 visible-lg"><h2><span class="label label-default answer answerWeb">{{answer}}</span></h2></div>
 
-				<h4 class="Text-muted">Feel free to ask!</h4>
+		<div class="col-sm-4 col-xs-2 hidden-lg"></div>
 
-				<form class="form-horizontal" action="/users" method="post" role="form"></form>
 
-				<div class="col-md-1"></div>
-
-				<div class="col-md-3">
-					<div class="form-group">
-						<div class="col-md-12"><input type="text" class="form-control" name="name" placeholder="Name"><br></div>
-					</div>
-
-					<div class="form-group">
-						<div class="col-md-12"><input type="email" class="form-control" name="email" placeholder="Email"></div>
-					</div>
-				</div>
-
-				<div class="col-md-6">
-					<div class="form-group">
-						<div class="col-md-12">
-							<textarea class="form-control" name="message" rows="4" placeholder="Message" required ></textarea>
-							<br>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-md-10">
-					<input type="submit" class="btn btn-primary pull-right send" value="send">
-				</div>
-			</div>
+		<div class="col-sm-2 col-xs-5">
+			<button class="btn btn-primary btn-lg btnNext" type="submit">next </br> (+)</button>
 		</div>
-	</div>
 
-	<!-- <script type="text/javascript">
-	  var FHChat = {product_id: "7e4efedacdaf"};
-	  FHChat.properties={};FHChat.set=function(key,data){this.properties[key]=data};!function(){var a,b;return b=document.createElement("script"),a=document.getElementsByTagName("script")[0],b.src="https://chat-client-js.firehoseapp.com/chat-min.js",b.async=!0,a.parentNode.insertBefore(b,a)}();
-	</script> -->
+		<div class="col-sm-2"></div>
+
+	</div>
 
 	<div class="footer">
 		<div class="container">
-			<hr>
-			<p class="text-center">
-				&copy;2015.Bootstrap Web Page by Alec
+			<br>
+			<br>
+			<p class="text-center" style="color: #9f9f9f">
+				&copy;2015.QuizUrself by Alec -- hsu022210@gmail.com
 			</p>
 		</div>
 	</div>
 
 
-	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="js/main.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+	<!-- Modules -->
+    <script src="js/app.js"></script>
+
+	<!-- Controllers -->
+    <script src="js/controllers/MainController.js"></script>
+
 
 </body>
 </html>
