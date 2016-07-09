@@ -653,7 +653,7 @@ app.controller('MainController', ['$scope', '$firebaseObject', function($scope, 
 
     //show the answer and blur the focusing
   $('.btnAnswer').click(function() {
-    $('.answer').show();
+    $('.answer').fadeIn();
     $('.btnAnswer').blur();
   });
 
@@ -674,7 +674,7 @@ app.controller('MainController', ['$scope', '$firebaseObject', function($scope, 
   //click enter = answer, + = next
   $(document).keyup(function(event) {
     if(event.which === 13) {
-        $('.answer').show();
+        $('.answer').fadeIn();
         $('.meaning').blur();
       }
       else if(event.which === 107) {
