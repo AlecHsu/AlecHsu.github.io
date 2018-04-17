@@ -12,48 +12,46 @@ let dataColArr = [
 let chartTitle = "Trend of Average Crime Rate in United States";
 let yAxisTitle = "Number of Reported Offenses per 100,000 Population";
 
-anychart.onDocumentReady(function() {
-    d3.csv("state_crime.csv", function(error, data) {
+d3.csv("state_crime.csv", function(error, data) {
 
-      if (error) throw error;
+  if (error) throw error;
 
-      data.forEach(function(d) {
-          let colName = "";
-          if (d.Year in dataDict){
+  data.forEach(function(d) {
+      let colName = "";
+      if (d.Year in dataDict){
 
-              for (let i = 0; i < dataColArr.length; i++) {
-                  colName = dataColArr[i];
-                  dataDict[d.Year][i].push(+d[colName]);
-              }
-          }else{
-              let colArr = [];
-              for (let i = 0; i < dataColArr.length; i++) {
-                  colName = dataColArr[i];
-                  colArr.push([+d[colName]]);
-              }
-              dataDict[d.Year] = colArr;
+          for (let i = 0; i < dataColArr.length; i++) {
+              colName = dataColArr[i];
+              dataDict[d.Year][i].push(+d[colName]);
           }
-      });
-
-      let yearsArr = d3.keys(dataDict);
-
-      for (let i = 0; i < yearsArr.length; i++) {
-          let year = yearsArr[i];
-          let yearData = dataDict[year];
-
-          for (let j = 0; j < yearData.length; j++) {
-              let colData = yearData[j];
-
-              let sum = 0.0;
-              for (let k = 0; k < colData.length; k++) {
-                  sum += colData[k];
-              }
-
-              let avg = sum / colData.length;
-              dataDict[year][j] = avg.toFixed(2);
+      }else{
+          let colArr = [];
+          for (let i = 0; i < dataColArr.length; i++) {
+              colName = dataColArr[i];
+              colArr.push([+d[colName]]);
           }
+          dataDict[d.Year] = colArr;
       }
-    });
+  });
+
+  let yearsArr = d3.keys(dataDict);
+
+  for (let i = 0; i < yearsArr.length; i++) {
+      let year = yearsArr[i];
+      let yearData = dataDict[year];
+
+      for (let j = 0; j < yearData.length; j++) {
+          let colData = yearData[j];
+
+          let sum = 0.0;
+          for (let k = 0; k < colData.length; k++) {
+              sum += colData[k];
+          }
+
+          let avg = sum / colData.length;
+          dataDict[year][j] = avg.toFixed(2);
+      }
+  }
 });
 
 anychart.onDocumentLoad(function() {
