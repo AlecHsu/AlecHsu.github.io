@@ -9,7 +9,7 @@ let dataColArr = [
     "Rates.Violent.Robbery"
 ];
 
-let chartTitle = "Trend of Crime Rate in United States";
+let chartTitle = "Trend of Average Crime Rate in United States";
 let yAxisTitle = "Number of Reported Offenses per 100,000 Population";
 
 anychart.onDocumentReady(function() {
@@ -18,25 +18,17 @@ anychart.onDocumentReady(function() {
       if (error) throw error;
 
       data.forEach(function(d) {
+          let colName = "";
           if (d.Year in dataDict){
-              let colName = "";
 
               for (let i = 0; i < dataColArr.length; i++) {
                   colName = dataColArr[i];
-                  // dataDict[d.Year][i].push(parseFloat(+d[colName]).toFixed(2));
-                  // let val = (+d[colName]).toFixed(2);
-                  // dataDict[d.Year][i].push(val);
                   dataDict[d.Year][i].push(+d[colName]);
               }
           }else{
               let colArr = [];
-              let colName = "";
-
               for (let i = 0; i < dataColArr.length; i++) {
                   colName = dataColArr[i];
-                  // colArr.push([parseFloat(+d[colName]).toFixed(2)]);
-                  // let val = (+d[colName]).toFixed(2);
-                  // colArr.push([val]);
                   colArr.push([+d[colName]]);
               }
               dataDict[d.Year] = colArr;
@@ -58,7 +50,7 @@ anychart.onDocumentReady(function() {
               }
 
               let avg = sum / colData.length;
-              dataDict[year][j] = avg;
+              dataDict[year][j] = avg.toFixed(2);
           }
       }
     });
