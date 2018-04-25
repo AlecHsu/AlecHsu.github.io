@@ -1,62 +1,64 @@
-let dataDict = {};
-let dataColArr = [
-    "Rates.Property.Burglary",
-    "Rates.Property.Larceny",
-    "Rates.Property.Motor",
-    "Rates.Violent.Assault",
-    "Rates.Violent.Murder",
-    "Rates.Violent.Rape",
-    "Rates.Violent.Robbery"
-];
+function readDataFromCsv(dataColArr, state) {
+    let dataDict = {};
+    d3.csv("state_crime.csv", function(error, data) {
 
-let chartTitle = "Trend of Average Crime Rate in United States";
-let yAxisTitle = "Number of Reported Offenses per 100,000 Population";
+      if (error) throw error;
 
-d3.csv("state_crime.csv", function(error, data) {
-
-  if (error) throw error;
-
-  data.forEach(function(d) {
-      let colName = "";
-      if (d.Year in dataDict){
-
-          for (let i = 0; i < dataColArr.length; i++) {
-              colName = dataColArr[i];
-              dataDict[d.Year][i].push(+d[colName]);
-          }
-      }else{
-          let colArr = [];
-          for (let i = 0; i < dataColArr.length; i++) {
-              colName = dataColArr[i];
-              colArr.push([+d[colName]]);
-          }
-          dataDict[d.Year] = colArr;
+      if (state != "National") {
+          data = data.filter(d => d["State"] == state);
       }
-  });
 
-  let yearsArr = d3.keys(dataDict);
+      data.forEach(function(d) {
+          let colName = "";
 
-  for (let i = 0; i < yearsArr.length; i++) {
-      let year = yearsArr[i];
-      let yearData = dataDict[year];
+          if (d.Year in dataDict){
 
-      for (let j = 0; j < yearData.length; j++) {
-          let colData = yearData[j];
-
-          let sum = 0.0;
-          for (let k = 0; k < colData.length; k++) {
-              sum += colData[k];
+              for (let i = 0; i < dataColArr.length; i++) {
+                  colName = dataColArr[i];
+                  dataDict[d.Year][i].push(+d[colName]);
+              }
+          }else{
+              let colArr = [];
+              for (let i = 0; i < dataColArr.length; i++) {
+                  colName = dataColArr[i];
+                  colArr.push([+d[colName]]);
+              }
+              dataDict[d.Year] = colArr;
           }
 
-          let avg = sum / colData.length;
-          dataDict[year][j] = avg.toFixed(2);
-      }
-  }
-});
+      });
 
-anychart.onDocumentLoad(function() {
+      let yearsArr = d3.keys(dataDict);
+      console.log(d3.values(dataDict).length);
+
+      for (let i = 0; i < yearsArr.length; i++) {
+          let year = yearsArr[i];
+          let yearData = dataDict[year];
+
+          for (let j = 0; j < yearData.length; j++) {
+              let colData = yearData[j];
+
+              let sum = 0.0;
+              for (let k = 0; k < colData.length; k++) {
+                  sum += colData[k];
+              }
+
+              let avg = sum / colData.length;
+              dataDict[year][j] = avg.toFixed(2);
+          }
+      }
+    });
+    console.log("------------------------------------------");
+    console.log(d3.values(dataDict).length);
+    return dataDict;
+}
+
+function drawChart(dataDict, dataColArr) {
+    let chartTitle = "Trend of Average Crime Rate in United States";
+    let yAxisTitle = "# of Reported Offenses per 100,000 Population";
+
     // create data set on our data
-    var dataSet = anychart.data.set(getData());
+    var dataSet = anychart.data.set(getData(dataDict));
 
     let seriesDataArr = [];
 
@@ -124,9 +126,10 @@ anychart.onDocumentLoad(function() {
     chart.container('container');
     // initiate chart drawing
     chart.draw();
-});
+}
 
-function getData() {
+function getData(dataDict) {
+    // console.log(d3.values(dataDict).length);
     let resultArr = [];
     let yearsArr = d3.keys(dataDict);
     for (let i = 0; i < yearsArr.length; i++) {
@@ -148,3 +151,59 @@ function getData() {
     // ['1989', 9.2, 11.8, 6.5, 18.9]
     // ]
 }
+
+function addState(stateSet, dataColArr) {
+    let stateArr = Array.from(stateSet);
+    let stateName = null;
+    let htmlStr = null;
+
+    for (let i = 0; i < stateArr.length; i++) {
+        stateName = stateArr[i];
+        htmlStr = `<a class="dropdown-item" href="#">${stateName}</a>`;
+        $( ".states_dropdown" ).append(htmlStr);
+    }
+
+    $('.states_dropdown a').on('click', function(){
+      // $('#datebox').val($(this).text());
+      console.log($(this).text());
+      $( "#container" ).empty();
+      let dataDict = readDataFromCsv(dataColArr, $(this).text());
+      // anychart.onDocumentLoad(function() {
+      //     drawChart(dataDict, dataColArr);
+      // });
+      drawChart(dataDict, dataColArr);
+    });
+}
+
+function makeStateDropdown(fileName, dataColArr) {
+    d3.csv(fileName, function(error, data) {
+        let stateSet = new Set();
+        if (error) throw error;
+        data.forEach(function(d) {
+            stateSet.add(d.State);
+        });
+        addState(stateSet, dataColArr);
+    });
+}
+
+function main() {
+    let fileName = "state_crime.csv"
+    let dataColArr = [
+        "Rates.Property.Burglary",
+        "Rates.Property.Larceny",
+        "Rates.Property.Motor",
+        "Rates.Violent.Assault",
+        "Rates.Violent.Murder",
+        "Rates.Violent.Rape",
+        "Rates.Violent.Robbery"
+    ];
+
+    let dataDict = readDataFromCsv(dataColArr, "National");
+    makeStateDropdown(fileName, dataColArr);
+
+    anychart.onDocumentLoad(function() {
+        drawChart(dataDict, dataColArr);
+    });
+}
+
+main();
