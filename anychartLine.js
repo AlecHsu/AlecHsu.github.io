@@ -48,13 +48,23 @@ function readDataFromCsv(dataColArr, state) {
           }
       }
     });
-    console.log("------------------------------------------");
+    console.log("=====================");
     console.log(d3.values(dataDict).length);
     return dataDict;
 }
 
+function sleep(milliseconds) {
+  var start = new Date().getTime();
+  for (var i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > milliseconds){
+      break;
+    }
+  }
+}
+
 function drawChart(dataDict, dataColArr) {
-    let chartTitle = "Trend of Average Crime Rate in United States";
+    // let chartTitle = "Trend of Average Crime Rate in United States in Years";
+    let chartTitle = "";
     let yAxisTitle = "# of Reported Offenses per 100,000 Population";
 
     // create data set on our data
@@ -165,13 +175,13 @@ function addState(stateSet, dataColArr) {
 
     $('.states_dropdown a').on('click', function(){
       // $('#datebox').val($(this).text());
-      console.log($(this).text());
       $( "#container" ).empty();
-      let dataDict = readDataFromCsv(dataColArr, $(this).text());
+      main($(this).text());
+      // let dataDict = readDataFromCsv(dataColArr, $(this).text());
       // anychart.onDocumentLoad(function() {
       //     drawChart(dataDict, dataColArr);
       // });
-      drawChart(dataDict, dataColArr);
+      // drawChart(dataDict, dataColArr);
     });
 }
 
@@ -186,7 +196,7 @@ function makeStateDropdown(fileName, dataColArr) {
     });
 }
 
-function main() {
+function main(state) {
     let fileName = "state_crime.csv"
     let dataColArr = [
         "Rates.Property.Burglary",
@@ -198,12 +208,71 @@ function main() {
         "Rates.Violent.Robbery"
     ];
 
-    let dataDict = readDataFromCsv(dataColArr, "National");
-    makeStateDropdown(fileName, dataColArr);
+    // let dataDict = readDataFromCsv(dataColArr, "National");
+
+    let dataDict = {};
+    d3.csv("state_crime.csv", function(error, data) {
+
+      if (error) throw error;
+
+      if (state != "National") {
+          data = data.filter(d => d["State"] == state);
+      }
+
+      data.forEach(function(d) {
+          let colName = "";
+
+          if (d.Year in dataDict){
+
+              for (let i = 0; i < dataColArr.length; i++) {
+                  colName = dataColArr[i];
+                  dataDict[d.Year][i].push(+d[colName]);
+              }
+          }else{
+              let colArr = [];
+              for (let i = 0; i < dataColArr.length; i++) {
+                  colName = dataColArr[i];
+                  colArr.push([+d[colName]]);
+              }
+              dataDict[d.Year] = colArr;
+          }
+
+      });
+
+      let yearsArr = d3.keys(dataDict);
+      // console.log(d3.values(dataDict).length);
+
+      for (let i = 0; i < yearsArr.length; i++) {
+          let year = yearsArr[i];
+          let yearData = dataDict[year];
+
+          for (let j = 0; j < yearData.length; j++) {
+              let colData = yearData[j];
+
+              let sum = 0.0;
+              for (let k = 0; k < colData.length; k++) {
+                  sum += colData[k];
+              }
+
+              let avg = sum / colData.length;
+              dataDict[year][j] = avg.toFixed(2);
+          }
+      }
+    });
+    // console.log("=====================");
+    // console.log(d3.values(dataDict).length);
 
     anychart.onDocumentLoad(function() {
+        // let dataDict = readDataFromCsv(dataColArr, "National");
+        makeStateDropdown(fileName, dataColArr);
         drawChart(dataDict, dataColArr);
     });
+    console.log(state);
+    if (state != "National") {
+        makeStateDropdown(fileName, dataColArr);
+        drawChart(dataDict, dataColArr);
+        console.log("draw again");
+    }
 }
 
-main();
+main("National");

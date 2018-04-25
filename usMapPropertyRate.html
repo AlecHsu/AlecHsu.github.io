@@ -1,22 +1,19 @@
-
 <!-- <!DOCTYPE html>
-<html>
-<head>
-    <meta charset='utf-8'>
-
-    <style>
-    html, body, #container {
-        width: 60em;
-        height: 35em;
-        margin: auto;
-        padding: 0;
-        }
-    </style>
-</head>
-<body>
-    <div id="container"></div>
-</body>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>D3: Loading GeoJSON data and generating SVG paths</title>
+		<script src="https://d3js.org/d3.v4.min.js"></script>
+		<script src="https://d3js.org/colorbrewer.v1.min.js"></script>
+		<style type="text/css">
+			/* No style rules here yet */
+		</style>
+	</head>
+	<body>
+		<script type="text/javascript" src="usMapCrimeRate.js"></script>
+	</body>
 </html> -->
+
 
 <!doctype html>
 <html lang="en">
@@ -31,7 +28,8 @@
     <script src="https://cdn.anychart.com/releases/8.2.1/js/anychart-exports.min.js"></script>
     <link rel="stylesheet" href="https://cdn.anychart.com/releases/8.2.1/css/anychart-ui.min.css">
     <link rel="stylesheet" href="https://cdn.anychart.com/releases/8.2.1/fonts/css/anychart-font.min.css">
-    <script src="https://d3js.org/d3.v4.min.js"></script>
+	<script src="https://d3js.org/d3.v4.min.js"></script>
+	<script src="https://d3js.org/colorbrewer.v1.min.js"></script>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>CS560 Final Project</title>
@@ -55,44 +53,44 @@
       <div class="row">
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
           <div class="sidebar-sticky">
-            <ul class="nav flex-column">
-              <li class="nav-item">
-                <a class="nav-link active" href="#">
-                  <span data-feather="home"></span>
-                  Dashboard <span class="sr-only">(current)</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link text-primary" href="anychartLine.html">
-                  <span data-feather="file"></span>
-                  Line Chart
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="usMapPropertyRate.html">
-                  <span data-feather="shopping-cart"></span>
-                  Choropleth Map
-                </a>
-              </li>
-              <!-- <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="users"></span>
-                  Customers
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="bar-chart-2"></span>
-                  Reports
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="layers"></span>
-                  Integrations
-                </a>
-              </li> -->
-            </ul>
+              <ul class="nav flex-column">
+                <li class="nav-item">
+                  <a class="nav-link active" href="#">
+                    <span data-feather="home"></span>
+                    Dashboard <span class="sr-only">(current)</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="anychartLine.html">
+                    <span data-feather="file"></span>
+                    Line Chart
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-primary" href="usMapPropertyRate.html">
+                    <span data-feather="shopping-cart"></span>
+                    Choropleth Map
+                  </a>
+                </li>
+                <!-- <li class="nav-item">
+                  <a class="nav-link" href="#">
+                    <span data-feather="users"></span>
+                    Customers
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">
+                    <span data-feather="bar-chart-2"></span>
+                    Reports
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">
+                    <span data-feather="layers"></span>
+                    Integrations
+                  </a>
+                </li> -->
+              </ul>
 
             <!-- <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
               <span>Saved reports</span>
@@ -131,7 +129,7 @@
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-            <h1 class="h2">Trend of Average Crime Rate in United States in Years</h1>
+            <h1 class="h2"># of Reported Offenses per 100,000 Population in USA</h1>
             <div class="btn-toolbar mb-2 mb-md-0">
               <!-- <div class="btn-group mr-2">
                 <button class="btn btn-sm btn-outline-secondary">Share</button>
@@ -144,11 +142,11 @@
 
               <div class="dropdown">
                   <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    National
+                    Property
                   </button>
                   <div class="dropdown-menu dropdown-menu-right states_dropdown" aria-labelledby="dropdownMenuButton">
-                    <!-- <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="usMapViolentRate.html">Violent</a>
+                    <!-- <a class="dropdown-item" href="#">Another action</a>
                     <a class="dropdown-item" href="#">Something else here</a> -->
                   </div>
                 </div>
@@ -156,7 +154,8 @@
           </div>
 
           <!-- <canvas class="my-4" id="container" width="900" height="380"></canvas> -->
-          <div class="my-4" id="container" style="height:35em;"></div>
+          <!-- <div class="my-4" id="container" style="height:35em;"></div> -->
+          <div class="my-4" id="container"></div>
         </main>
       </div>
     </div>
@@ -165,7 +164,7 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="anychartLine.js"></script>
+    <script type="text/javascript" src="usMapPropertyRate.js"></script>
 
   </body>
 </html>

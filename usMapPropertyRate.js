@@ -1,6 +1,6 @@
 //Width and height
-let w = 1200;
-let h = 700;
+let w = 1000;
+let h = 600;
 let margin = {top: 130, right: 20, bottom: 100, left: 150};
 let fileName = "state_crime.csv";
 let colorOptions = ["#fef0d9","#fdcc8a","#fc8d59","#e34a33","#b30000"];
@@ -30,7 +30,7 @@ var circleScale = d3.scaleLinear().range(cityCircleSize);
 var formatAsThousands = d3.format(",");  //e.g. converts 123456 to "123,456"
 
 //Create SVG element
-var svg = d3.select("body")
+var svg = d3.select("#container")
             .append("svg")
             .attr("width", w)
             .attr("height", h);
@@ -104,7 +104,7 @@ d3.csv(fileName, function(error, data) {
               .style("font", plotTitleFontStyle)
               .attr("text-anchor", "middle")
               .attr("transform", "translate("+ (w/2) +","+(margin.top/2)+")")
-              .text("Crime Rate of Property in USA");
+              .text("Property");
 
         //    //Load in cities data
         // d3.csv("us-cities.csv", function(data) {
