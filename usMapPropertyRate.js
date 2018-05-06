@@ -30,10 +30,11 @@ var circleScale = d3.scaleLinear().range(cityCircleSize);
 var formatAsThousands = d3.format(",");  //e.g. converts 123456 to "123,456"
 
 //Create SVG element
-var svg = d3.select("#container")
+var svg = d3.select("#containerMap")
             .append("svg")
             .attr("width", w)
-            .attr("height", h);
+            .attr("height", h)
+            .attr("id", "svg_map");
 
 //Load in agriculture data
 d3.csv(fileName, function(error, data) {
@@ -81,6 +82,10 @@ d3.csv(fileName, function(error, data) {
            .enter()
            .append("path")
            .attr("d", path)
+           .attr("class", "pointer")
+           .attr("id", function(d){
+               return "click_" + d.properties.name;
+           })
            .style("fill", function(d) {
                 //Get data value
                 var value = d.properties.value;
