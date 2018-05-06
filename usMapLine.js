@@ -187,24 +187,26 @@ function updateChart(lineChartIdName, data, dataColArr, nationalName, $dom){
     drawChart(lineChartIdName, dataDict, dataColArr, state_name);
 }
 
-function main() {
+function main(crime_type) {
     let fileName = "state_crime.csv";
-    let dataColArr = [
-        "Rates.Property.Burglary",
-        "Rates.Property.Larceny",
-        "Rates.Property.Motor",
-    ];
+    let dataColArr = null;
 
-    // let dataColArr = [
-    //     "Rates.Property.Burglary",
-    //     "Rates.Property.Larceny",
-    //     "Rates.Property.Motor",
-    //     "Rates.Violent.Assault",
-    //     "Rates.Violent.Murder",
-    //     "Rates.Violent.Rape",
-    //     "Rates.Violent.Robbery"
-    // ];
-    let nationalName = "United States";
+    if (crime_type == "Violent"){
+        dataColArr = [
+            "Rates.Violent.Assault",
+            "Rates.Violent.Murder",
+            "Rates.Violent.Rape",
+            "Rates.Violent.Robbery"
+        ];
+    }else{
+        dataColArr = [
+            "Rates.Property.Burglary",
+            "Rates.Property.Larceny",
+            "Rates.Property.Motor",
+        ];
+    }
+    
+    let nationalName = "National";
     let lineChartIdName = "container";
 
     d3.csv(fileName, function(error, data) {
@@ -221,4 +223,6 @@ function main() {
     });
 }
 
-main();
+crime_type = document.currentScript.getAttribute('crime_type');
+
+main(crime_type);

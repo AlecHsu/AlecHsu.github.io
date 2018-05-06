@@ -7,6 +7,7 @@ let colorOptions = ["#fef0d9","#fdcc8a","#fc8d59","#e34a33","#b30000"];
 // let colorOptions = ["rgb(237,248,233)","rgb(186,228,179)","rgb(116,196,118)","rgb(49,163,84)","rgb(0,109,44)"];
 let cityCircleSize = [5, 25];
 let plotTitleFontStyle = "20px sans-serif";
+let plotSubTitleFontStyle = "14px sans-serif";
 
 var projection = d3.geoAlbersUsa().translate([w/2, h/2]).scale([1000]);
 
@@ -30,10 +31,11 @@ var circleScale = d3.scaleLinear().range(cityCircleSize);
 var formatAsThousands = d3.format(",");  //e.g. converts 123456 to "123,456"
 
 //Create SVG element
-var svg = d3.select("#container")
+var svg = d3.select("#containerMap")
             .append("svg")
             .attr("width", w)
-            .attr("height", h);
+            .attr("height", h)
+            .attr("id", "svg_map");
 
 //Load in agriculture data
 d3.csv(fileName, function(error, data) {
@@ -81,6 +83,10 @@ d3.csv(fileName, function(error, data) {
            .enter()
            .append("path")
            .attr("d", path)
+           .attr("class", "pointer")
+           .attr("id", function(d){
+               return "click_" + d.properties.name;
+           })
            .style("fill", function(d) {
                 //Get data value
                 var value = d.properties.value;
@@ -105,6 +111,11 @@ d3.csv(fileName, function(error, data) {
               .attr("text-anchor", "middle")
               .attr("transform", "translate("+ (w/2) +","+(margin.top/2)+")")
               .text("Violent");
+          svg.append("text")
+              .style("font", plotSubTitleFontStyle)
+              .attr("text-anchor", "middle")
+              .attr("transform", "translate("+ (w/2) +","+(margin.top/2 + 30)+")")
+              .text("# of Reported Offenses per 100,000 Population");
 
         //    //Load in cities data
         // d3.csv("us-cities.csv", function(data) {

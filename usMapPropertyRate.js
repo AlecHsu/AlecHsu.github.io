@@ -7,6 +7,7 @@ let colorOptions = ["#fef0d9","#fdcc8a","#fc8d59","#e34a33","#b30000"];
 // let colorOptions = ["rgb(237,248,233)","rgb(186,228,179)","rgb(116,196,118)","rgb(49,163,84)","rgb(0,109,44)"];
 let cityCircleSize = [5, 25];
 let plotTitleFontStyle = "20px sans-serif";
+let plotSubTitleFontStyle = "14px sans-serif";
 
 var projection = d3.geoAlbersUsa().translate([w/2, h/2]).scale([1000]);
 
@@ -110,6 +111,12 @@ d3.csv(fileName, function(error, data) {
               .attr("text-anchor", "middle")
               .attr("transform", "translate("+ (w/2) +","+(margin.top/2)+")")
               .text("Property");
+
+          svg.append("text")
+              .style("font", plotSubTitleFontStyle)
+              .attr("text-anchor", "middle")
+              .attr("transform", "translate("+ (w/2) +","+(margin.top/2 + 30)+")")
+              .text("# of Reported Offenses per 100,000 Population");
 
         //    //Load in cities data
         // d3.csv("us-cities.csv", function(data) {
