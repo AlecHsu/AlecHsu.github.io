@@ -1,10 +1,14 @@
-function dataPreprocessingMap(data, crime_type) {
+function dataPreprocessingMap(data, crime_type, yearStr) {
     let dataDict = {};
     let valueColName = "Rates.Property.All";
     if (crime_type == "Violent") {
         valueColName = "Rates.Violent.All";
     }
     let keyColName = "State";
+
+    if (yearStr != "-1") {
+        data = data.filter(d => d["Year"] == yearStr);
+    }
 
     data.forEach(function(d) {
        let colName = "";
@@ -106,8 +110,8 @@ function mainMap() {
     //Load in data
     d3.csv(fileName, function(error, data) {
         if (error) throw error;
-
-        let dataInDict = dataPreprocessingMap(data, crime_type);
+        let defaultYear = "1994";
+        let dataInDict = dataPreprocessingMap(data, crime_type, defaultYear);
 
         //Set input domain for color scale
         color.domain([
@@ -142,11 +146,10 @@ function mainMap() {
                         return "#ccc";
                     }
                })
-               .append("title")			//Simple tooltip
+               .append("title")
                .text(function(d) {
-                	return d.properties.name + ": Rate. " + formatAsThousands(d.properties.value);
-               })
-               ;
+                	return d.properties.name + ": " + formatAsThousands(d.properties.value);
+               });
 
             // main title
             svg.append("text")
@@ -194,7 +197,60 @@ function mainMap() {
             // });
 
         });
+        // // Initial starting radius of the circle
+        updateMap(defaultYear);
 
+        d3.select("#slider").on("input", function() {
+            updateMap(this.value);
+        });
+
+        // update the elements
+        function updateMap(yearStr) {
+
+            // adjust the text on the range slider
+            d3.select("#slider-value").text(+yearStr);
+            d3.select("#slider").property("value", +yearStr);
+
+            dataInDict = dataPreprocessingMap(data, crime_type, yearStr);
+
+            //Set input domain for color scale
+            color.domain([
+                d3.min(dataInDict, function(d) { return d.value; }),
+                d3.max(dataInDict, function(d) { return d.value; })
+            ]);
+
+            //Load in GeoJSON data
+            d3.json("us-states.json", function(json) {
+
+                json = addValueToJson(dataInDict, json);
+
+                //Bind data and create one path per GeoJSON feature
+                svg.selectAll("path")
+                    .data(json.features)
+                    .transition()
+                    .duration(500)
+                   // .attr("id", function(d){
+                   //     return "click_" + d.properties.name;
+                   // })
+                   .style("fill", function(d) {
+                        //Get data value
+                        var value = d.properties.value;
+
+                        if (value) {
+                            //If value exists…
+                            return color(value);
+                        } else {
+                            //If value is undefined…
+                            return "#ccc";
+                        }
+                   })
+                   .select("title")
+                   .text(function(d) {
+                    	return d.properties.name + ": " + formatAsThousands(d.properties.value);
+                   })
+            });
+        }
+        // end of update map
     });
 }
 
