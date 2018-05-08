@@ -187,7 +187,8 @@ function updateChart(lineChartIdName, data, dataColArr, nationalName, $dom){
     drawChart(lineChartIdName, dataDict, dataColArr, state_name);
 }
 
-function main(crime_type) {
+function main() {
+    let crime_type = document.currentScript.getAttribute('crime_type');
     let fileName = "state_crime.csv";
     let dataColArr = null;
 
@@ -205,7 +206,7 @@ function main(crime_type) {
             "Rates.Property.Motor",
         ];
     }
-    
+
     let nationalName = "National";
     let lineChartIdName = "container";
 
@@ -223,6 +224,4 @@ function main(crime_type) {
     });
 }
 
-crime_type = document.currentScript.getAttribute('crime_type');
-
-main(crime_type);
+main();
