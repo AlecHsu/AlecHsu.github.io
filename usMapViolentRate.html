@@ -136,7 +136,17 @@
           </div>
 
           <!-- <canvas class="my-4" id="container" width="900" height="380"></canvas> -->
-          <div class="my-4" id="containerMap"></div>
+          <div class="my-4 text-center" id="containerSlider" style="height:4em;">
+              <p>
+                <label for="slider"
+                       style="width: 10em; text-align: center;">
+                       Year: <span id="slider-value">…</span>
+                </label>
+                <br>
+                <input type="range" min="1960" max="2012" id="slider" class="slider">
+              </p>
+          </div>
+          <div class="my-4" id="containerMap" style="height:40em;"></div>
           <div class="my-4" id="containerLine" style="height:35em;"></div>
           <div class="my-4" id="containerPie" style="height:35em;"></div>
         </main>

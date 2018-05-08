@@ -37,13 +37,10 @@ function drawPie(chartIdName, dataSet, stateName) {
   chart.draw();
 };
 
-function updatePie(chartIdName, data, crime_type, nationalName, $dom){
+function updatePie(chartIdName, data, crime_type, nationalName, state_name, yearStr){
     $( "#"+chartIdName).empty();
-    let state_id_name = $dom.attr("id");
-    let state_name = state_id_name.split("_")[1];
-    let anyChartDataSet = dataPreprocessingPie(data, crime_type, state_name, nationalName);
+    let anyChartDataSet = dataPreprocessingPie(data, crime_type, state_name, nationalName, yearStr);
     drawPie(chartIdName, anyChartDataSet, state_name);
-    // drawLineChart(lineChartIdName, dataDict, dataColArr, state_name);
 }
 
 function mainPie() {
@@ -52,24 +49,40 @@ function mainPie() {
 
     let nationalName = "National";
     let chartIdName = "containerPie";
+    let defaultYear = "1994";
 
     d3.csv(fileName, function(error, data) {
         if (error) throw error;
-        let anyChartDataSet = dataPreprocessingPie(data, crime_type, nationalName, nationalName);
-        // let dataDict = readDataFromCsv(data, dataColArr, nationalName, nationalName);
+        let anyChartDataSet = dataPreprocessingPie(data, crime_type, nationalName, nationalName, defaultYear);
 
         anychart.onDocumentLoad(function() {
+
+            let stateName = null;
+            let yearStr = null;
+
             drawPie(chartIdName, anyChartDataSet, nationalName);
-            // drawChart(lineChartIdName, dataDict, dataColArr, nationalName);
+
             $('#svg_map path').on('click', function(){
-              // updateChart(chartIdName, data, dataColArr, nationalName, $(this));
-              updatePie(chartIdName, data, crime_type, nationalName, $(this));
+                yearStr = $( "#slider" ).val();
+                let state_id_name = $(this).attr("id");
+                stateName = state_id_name.split("_")[1];
+                updatePie(chartIdName, data, crime_type, nationalName, stateName, yearStr);
             });
+
+            $('#slider').on("input", function() {
+                yearStr = $(this).val();
+                if (stateName == null){
+                    updatePie(chartIdName, data, crime_type, nationalName, nationalName, yearStr);
+                }else{
+                    updatePie(chartIdName, data, crime_type, nationalName, stateName, yearStr);
+                }
+            });
+
         });
     });
 }
 
-function dataPreprocessingPie(data, crime_type, state, nationalName) {
+function dataPreprocessingPie(data, crime_type, state, nationalName, yearStr) {
     let dataDict = {};
     let dataColArr = null;
 
@@ -90,6 +103,10 @@ function dataPreprocessingPie(data, crime_type, state, nationalName) {
 
     if (state != nationalName) {
         data = data.filter(d => d["State"] == state);
+    }
+
+    if (yearStr != "-1") {
+        data = data.filter(d => d["Year"] == yearStr);
     }
 
     data.forEach(function(d) {

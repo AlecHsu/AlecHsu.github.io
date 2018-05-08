@@ -229,10 +229,7 @@ function mainMap() {
                     .data(json.features)
                     .transition()
                     .duration(500)
-                   // .attr("id", function(d){
-                   //     return "click_" + d.properties.name;
-                   // })
-                   .style("fill", function(d) {
+                    .style("fill", function(d) {
                         //Get data value
                         var value = d.properties.value;
 
@@ -243,11 +240,11 @@ function mainMap() {
                             //If value is undefined…
                             return "#ccc";
                         }
-                   })
-                   .select("title")
-                   .text(function(d) {
+                    })
+                    .select("title")
+                    .text(function(d) {
                     	return d.properties.name + ": " + formatAsThousands(d.properties.value);
-                   })
+                    })
             });
         }
         // end of update map
