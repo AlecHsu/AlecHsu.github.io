@@ -156,6 +156,7 @@ function mainMap() {
                         return "#ccc";
                     }
                })
+               .style("stroke", "#c5cbd3")
                .append("title")
                .text(function(d) {
                 	return d.properties.name + ": " + formatAsThousands(d.properties.value);
