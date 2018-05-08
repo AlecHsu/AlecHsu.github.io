@@ -16,9 +16,9 @@ function drawPie(chartIdName, dataSet, stateName) {
 
   let chart = anychart.pie(wealth);
   chart.labels()
-    .hAlign('center')
-    .position('outside')
-    .format('{%Value} offenses');
+    // .hAlign('center')
+    .position('outside');
+    // .format('{%x} {%percent}%');
     // ({%PercentOfCategory}%)
 
   // set chart title text settings
