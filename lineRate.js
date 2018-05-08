@@ -46,7 +46,7 @@ function readDataFromCsv(data, dataColArr, state, nationalName) {
     return dataDict;
 }
 
-function drawChart(id_name, dataDict, dataColArr, state_name) {
+function drawLineChart(id_name, dataDict, dataColArr, state_name) {
     // let chartTitle = "Trend of Average Crime Rate in " + state_name + " in Years";
     let chartTitle = state_name;
     let yAxisTitle = "# of Reported Offenses per 100,000 Population";
@@ -164,9 +164,9 @@ function getData(dataDict) {
     //   main($(this).text());
     //   // let dataDict = readDataFromCsv(dataColArr, $(this).text());
     //   // anychart.onDocumentLoad(function() {
-    //   //     drawChart(dataDict, dataColArr);
+    //   //     drawLineChart(dataDict, dataColArr);
     //   // });
-    //   // drawChart(dataDict, dataColArr);
+    //   // drawLineChart(dataDict, dataColArr);
     // });
 // }
 
@@ -178,16 +178,16 @@ function getStateNames(data) {
     return Array.from(stateSet);
 }
 
-function updateChart(lineChartIdName, data, dataColArr, nationalName, $dom){
+function updateLineChart(lineChartIdName, data, dataColArr, nationalName, $dom){
     $( "#"+lineChartIdName).empty();
     let state_id_name = $dom.attr("id");
     let state_name = state_id_name.split("_")[1];
     console.log(state_name);
-    dataDict = readDataFromCsv(data, dataColArr, state_name, nationalName);
-    drawChart(lineChartIdName, dataDict, dataColArr, state_name);
+    let dataDict = readDataFromCsv(data, dataColArr, state_name, nationalName);
+    drawLineChart(lineChartIdName, dataDict, dataColArr, state_name);
 }
 
-function main() {
+function mainLine() {
     let crime_type = document.currentScript.getAttribute('crime_type');
     let fileName = "state_crime.csv";
     let dataColArr = null;
@@ -208,20 +208,20 @@ function main() {
     }
 
     let nationalName = "National";
-    let lineChartIdName = "container";
+    let lineChartIdName = "containerLine";
 
     d3.csv(fileName, function(error, data) {
         if (error) throw error;
         let dataDict = readDataFromCsv(data, dataColArr, nationalName, nationalName);
 
         anychart.onDocumentLoad(function() {
-            drawChart(lineChartIdName, dataDict, dataColArr, nationalName);
+            drawLineChart(lineChartIdName, dataDict, dataColArr, nationalName);
 
             $('#svg_map path').on('click', function(){
-              updateChart(lineChartIdName, data, dataColArr, nationalName, $(this));
+              updateLineChart(lineChartIdName, data, dataColArr, nationalName, $(this));
             });
         });
     });
 }
 
-main();
+mainLine();

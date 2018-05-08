@@ -1,4 +1,4 @@
-function dataPreprocessing(data, crime_type) {
+function dataPreprocessingMap(data, crime_type) {
     let dataDict = {};
     let valueColName = "Rates.Property.All";
     if (crime_type == "Violent") {
@@ -62,7 +62,7 @@ function addValueToJson(dataInDict, json) {
 }
 
 
-function main() {
+function mainMap() {
     //Width and height
     let crime_type = document.currentScript.getAttribute('crime_type');
     let w = 1000;
@@ -107,7 +107,7 @@ function main() {
     d3.csv(fileName, function(error, data) {
         if (error) throw error;
 
-        let dataInDict = dataPreprocessing(data, crime_type);
+        let dataInDict = dataPreprocessingMap(data, crime_type);
 
         //Set input domain for color scale
         color.domain([
@@ -198,4 +198,4 @@ function main() {
     });
 }
 
-main();
+mainMap();
