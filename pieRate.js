@@ -45,11 +45,10 @@ function updatePie(chartIdName, data, crime_type, nationalName, state_name, year
 
 function mainPie() {
     let crime_type = document.currentScript.getAttribute('crime_type');
+    let defaultYear = document.currentScript.getAttribute('defaultYear');
     let fileName = "state_crime.csv";
-
     let nationalName = "National";
     let chartIdName = "containerPie";
-    let defaultYear = "1994";
 
     d3.csv(fileName, function(error, data) {
         if (error) throw error;

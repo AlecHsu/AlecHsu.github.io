@@ -65,21 +65,29 @@ function addValueToJson(dataInDict, json) {
     return json;
 }
 
+// var svg = d3.select("body").append("svg")
+//     .attr("width", width + margin.left + margin.right)
+//     .attr("height", height + margin.top + margin.bottom)
+//   .append("g")
+//     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
 
 function mainMap() {
     //Width and height
     let crime_type = document.currentScript.getAttribute('crime_type');
-    let w = 1000;
-    let h = 600;
-    let margin = {top: 130, right: 20, bottom: 100, left: 150};
+    let defaultYear = document.currentScript.getAttribute('defaultYear');
+    let margin = {top: 10, right: 0, bottom: 0, left: 10};
+    let w = $("#containerMap").width() - margin.left - margin.right;
+    let h = $("#containerMap").height() - margin.top - margin.bottom;
     let fileName = "state_crime.csv";
     let colorOptions = ["#fef0d9","#fdcc8a","#fc8d59","#e34a33","#b30000"];
     // let colorOptions = ["rgb(237,248,233)","rgb(186,228,179)","rgb(116,196,118)","rgb(49,163,84)","rgb(0,109,44)"];
     let cityCircleSize = [5, 25];
-    let plotTitleFontStyle = "20px sans-serif";
+    let plotTitleFontStyle = "22px sans-serif";
     let plotSubTitleFontStyle = "14px sans-serif";
 
-    var projection = d3.geoAlbersUsa().translate([w/2, h/2]).scale([1000]);
+    var projection = d3.geoAlbersUsa().translate([w/2, h/2]).scale([800]);
 
     //Define path generator, using the Albers USA projection
     var path = d3.geoPath()
@@ -103,14 +111,16 @@ function mainMap() {
     //Create SVG element
     var svg = d3.select("#containerMap")
                 .append("svg")
+                // .attr("width", w + margin.left + margin.right)
                 .attr("width", w)
+                // .attr("height", h + margin.top + margin.bottom)
                 .attr("height", h)
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
                 .attr("id", "svg_map");
 
     //Load in data
     d3.csv(fileName, function(error, data) {
         if (error) throw error;
-        let defaultYear = "1994";
         let dataInDict = dataPreprocessingMap(data, crime_type, defaultYear);
 
         //Set input domain for color scale
@@ -155,14 +165,14 @@ function mainMap() {
             svg.append("text")
                 .style("font", plotTitleFontStyle)
                 .attr("text-anchor", "middle")
-                .attr("transform", "translate("+ (w/2) +","+(margin.top/2)+")")
+                .attr("transform", "translate("+ (w/4*3) +","+(margin.top + 10)+")")
                 .text(crime_type);
 
-            svg.append("text")
-                .style("font", plotSubTitleFontStyle)
-                .attr("text-anchor", "middle")
-                .attr("transform", "translate("+ (w/2) +","+(margin.top/2 + 30)+")")
-                .text("# of Reported Offenses per 100,000 Population");
+            // svg.append("text")
+            //     .style("font", plotSubTitleFontStyle)
+            //     .attr("text-anchor", "middle")
+            //     .attr("transform", "translate("+ (w/2) +","+(margin.top + 3)+")")
+            //     .text("# of Reported Offenses per 100,000 Population");
 
             //    //Load in cities data
             // d3.csv("us-cities.csv", function(data) {
@@ -208,7 +218,7 @@ function mainMap() {
         function updateMap(yearStr) {
 
             // adjust the text on the range slider
-            d3.select("#slider-value").text(+yearStr);
+            $("#slider-value").text(+yearStr);
             d3.select("#slider").property("value", +yearStr);
 
             dataInDict = dataPreprocessingMap(data, crime_type, yearStr);
