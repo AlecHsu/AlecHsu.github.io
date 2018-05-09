@@ -39,9 +39,8 @@ function readDataFromCsv(data, dataColArr, state, nationalName) {
                 sum += colData[k];
             }
 
-            // let avg = sum / colData.length;
-            // dataDict[year][j] = avg.toFixed(2);
-            dataDict[year][j] = sum.toFixed(2);
+            let avg = sum / colData.length;
+            dataDict[year][j] = avg.toFixed(2);
         }
     }
     return dataDict;

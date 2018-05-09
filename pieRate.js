@@ -158,9 +158,8 @@ function dataPreprocessingPie(data, crime_type, state, nationalName, yearStr) {
            sum += currKeyData[j];
        }
 
-       // let avg = sum / currKeyData.length;
-       // resultArr.push([currKey, parseFloat(avg.toFixed(2))])
-       resultArr.push([currKey, parseFloat(sum.toFixed(2))])
+       let avg = sum / currKeyData.length;
+       resultArr.push([currKey, parseFloat(avg.toFixed(2))])
     }
     return resultArr;
 }
