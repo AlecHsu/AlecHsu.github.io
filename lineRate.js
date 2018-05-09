@@ -39,16 +39,17 @@ function readDataFromCsv(data, dataColArr, state, nationalName) {
                 sum += colData[k];
             }
 
-            let avg = sum / colData.length;
-            dataDict[year][j] = avg.toFixed(2);
+            // let avg = sum / colData.length;
+            // dataDict[year][j] = avg.toFixed(2);
+            dataDict[year][j] = sum.toFixed(2);
         }
     }
     return dataDict;
 }
 
-function drawLineChart(id_name, dataDict, dataColArr, state_name) {
-    // let chartTitle = "Trend of Average Crime Rate in " + state_name + " in Years";
-    let chartTitle = state_name;
+function drawLineChart(id_name, dataDict, dataColArr, stateName) {
+    // let chartTitle = "Trend of Average Crime Rate in " + stateName + " in Years";
+    let chartTitle = "Crime Trend in " + stateName;
     let yAxisTitle = "# of Reported Offenses per 100,000 Population";
 
     // create data set on our data
@@ -181,10 +182,10 @@ function getStateNames(data) {
 function updateLineChart(lineChartIdName, data, dataColArr, nationalName, $dom){
     $( "#"+lineChartIdName).empty();
     let state_id_name = $dom.attr("id");
-    let state_name = state_id_name.split("_")[1];
-    console.log(state_name);
-    let dataDict = readDataFromCsv(data, dataColArr, state_name, nationalName);
-    drawLineChart(lineChartIdName, dataDict, dataColArr, state_name);
+    let stateName = state_id_name.split("_")[1];
+    console.log(stateName);
+    let dataDict = readDataFromCsv(data, dataColArr, stateName, nationalName);
+    drawLineChart(lineChartIdName, dataDict, dataColArr, stateName);
 }
 
 function mainLine() {
@@ -207,7 +208,7 @@ function mainLine() {
         ];
     }
 
-    let nationalName = "National";
+    let nationalName = "United States";
     let lineChartIdName = "containerLine";
 
     d3.csv(fileName, function(error, data) {

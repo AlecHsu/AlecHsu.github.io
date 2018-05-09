@@ -6,7 +6,7 @@ function drawPie(chartIdName, dataSet, stateName) {
   //   ['USD 10,000 to 100,000', 32.1, 1045],
   //   ['< 10,000 USD', 8.2, 3038]
   // ]);
-  let chartTitle = stateName;
+  let chartTitle = "Crime Types in " + stateName;
   let data = anychart.data.set(dataSet);
 
   let wealth = data.mapAs({
@@ -37,17 +37,27 @@ function drawPie(chartIdName, dataSet, stateName) {
   chart.draw();
 };
 
-function updatePie(chartIdName, data, crime_type, nationalName, state_name, yearStr){
-    $( "#"+chartIdName).empty();
-    let anyChartDataSet = dataPreprocessingPie(data, crime_type, state_name, nationalName, yearStr);
-    drawPie(chartIdName, anyChartDataSet, state_name);
+
+function updatePie(chartIdName, anyChartDataSet, stateName){
+    $("#"+chartIdName).empty();
+    // let anyChartDataSet = dataPreprocessingPie(data, crime_type, stateName, nationalName, yearStr);
+    drawPie(chartIdName, anyChartDataSet, stateName);
+}
+
+function updateValueLabels(anyChartDataSet, stateName){
+    $("#" + "state_label").text(stateName);
+    let sum = 0;
+    for (var i = 0; i < anyChartDataSet.length; i++) {
+        sum += anyChartDataSet[i][1];
+    }
+    $("#" + "offenses_label").text(sum.toFixed(1));
 }
 
 function mainPie() {
     let crime_type = document.currentScript.getAttribute('crime_type');
     let defaultYear = document.currentScript.getAttribute('defaultYear');
     let fileName = "state_crime.csv";
-    let nationalName = "National";
+    let nationalName = "United States";
     let chartIdName = "containerPie";
 
     d3.csv(fileName, function(error, data) {
@@ -60,20 +70,30 @@ function mainPie() {
             let yearStr = null;
 
             drawPie(chartIdName, anyChartDataSet, nationalName);
+            updateValueLabels(anyChartDataSet, nationalName);
 
             $('#svg_map path').on('click', function(){
                 yearStr = $( "#slider" ).val();
                 let state_id_name = $(this).attr("id");
                 stateName = state_id_name.split("_")[1];
-                updatePie(chartIdName, data, crime_type, nationalName, stateName, yearStr);
+                anyChartDataSet = dataPreprocessingPie(data, crime_type, stateName, nationalName, yearStr);
+                updatePie(chartIdName, anyChartDataSet, stateName);
+                updateValueLabels(anyChartDataSet, stateName);
+                // updatePie(chartIdName, data, crime_type, nationalName, stateName, yearStr);
             });
 
             $('#slider').on("input", function() {
                 yearStr = $(this).val();
                 if (stateName == null){
-                    updatePie(chartIdName, data, crime_type, nationalName, nationalName, yearStr);
+                    anyChartDataSet = dataPreprocessingPie(data, crime_type, nationalName, nationalName, yearStr);
+                    // updatePie(chartIdName, data, crime_type, nationalName, nationalName, yearStr);
+                    updatePie(chartIdName, anyChartDataSet, nationalName);
+                    updateValueLabels(anyChartDataSet, nationalName);
                 }else{
-                    updatePie(chartIdName, data, crime_type, nationalName, stateName, yearStr);
+                    anyChartDataSet = dataPreprocessingPie(data, crime_type, stateName, nationalName, yearStr);
+                    // updatePie(chartIdName, data, crime_type, nationalName, stateName, yearStr);
+                    updatePie(chartIdName, anyChartDataSet, stateName);
+                    updateValueLabels(anyChartDataSet, stateName);
                 }
             });
 
@@ -112,7 +132,7 @@ function dataPreprocessingPie(data, crime_type, state, nationalName, yearStr) {
         let rawColName = null;
         let start_i = null;
         let colName = null;
-        for (var i = 0; i < dataColArr.length; i++) {
+        for (let i = 0; i < dataColArr.length; i++) {
             rawColName = dataColArr[i];
             start_i = rawColName.lastIndexOf(".");
 
@@ -138,8 +158,9 @@ function dataPreprocessingPie(data, crime_type, state, nationalName, yearStr) {
            sum += currKeyData[j];
        }
 
-       let avg = sum / currKeyData.length;
-       resultArr.push([currKey, parseFloat(avg.toFixed(2))])
+       // let avg = sum / currKeyData.length;
+       // resultArr.push([currKey, parseFloat(avg.toFixed(2))])
+       resultArr.push([currKey, parseFloat(sum.toFixed(2))])
     }
     return resultArr;
 }

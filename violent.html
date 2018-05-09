@@ -62,9 +62,9 @@
       </div>
       <div class="navbar navbar-dark bg-dark box-shadow">
         <div class="container d-flex justify-content-between">
-          <a href="#" class="navbar-brand d-flex align-items-center">
+          <a href="violent.html" class="navbar-brand d-flex align-items-center">
             <!-- <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg> -->
-            Final Project
+            CS560 Final Project
           </a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -100,18 +100,27 @@
                   </h5>
               </div>
 
-                <div class="col-md-5 text-center">
-                    <div class="my-4" id="containerSlider">
-                        <h2 for="slider" class="lead">
-                            Year: <span id="slider-value">…</span>
-                        </h2>
-                        <br>
-                        <br>
-                        <p>
-                            <input type="range" min="1960" max="2012" id="slider" class="slider">
-                        </p>
-                    </div>
-                </div>
+              <div class="col-md-5 text-left">
+                  <div class="my-4" id="containerSlider">
+                      <h2 for="slider" class="lead">
+                          Year: <span id="slider-value">…</span>
+                      </h2>
+
+                      <p>
+                          <input type="range" min="1960" max="2012" id="slider" class="slider">
+                      </p>
+                      <br>
+                      <br>
+                      <div class="container text-center">
+                          <h4 id="state_label">...</h4>
+                          <hr class="my-4">
+                          <p class="lead">
+                              <span id="offenses_label" class="text-danger">...</span> offenses
+                          </p>
+                      </div>
+
+                  </div>
+              </div>
 
                 <div class="col-md-7">
                     <div class="my-4" id="containerMap" style="height:23em;"></div>
