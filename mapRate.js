@@ -77,6 +77,7 @@ function mainMap() {
     //Width and height
     let crime_type = document.currentScript.getAttribute('crime_type');
     let defaultYear = document.currentScript.getAttribute('defaultYear');
+    let allYears = "-1";
     let margin = {top: 10, right: 0, bottom: 0, left: 10};
     let w = $("#containerMap").width() - margin.left - margin.right;
     let h = $("#containerMap").height() - margin.top - margin.bottom;
@@ -122,11 +123,12 @@ function mainMap() {
     d3.csv(fileName, function(error, data) {
         if (error) throw error;
         let dataInDict = dataPreprocessingMap(data, crime_type, defaultYear);
+        let dataInDictForAllYears = dataPreprocessingMap(data, crime_type, allYears);
 
         //Set input domain for color scale
         color.domain([
-            d3.min(dataInDict, function(d) { return d.value; }),
-            d3.max(dataInDict, function(d) { return d.value; })
+            d3.min(dataInDictForAllYears, function(d) { return d.value; }),
+            d3.max(dataInDictForAllYears, function(d) { return d.value; })
         ]);
 
         //Load in GeoJSON data
@@ -225,10 +227,10 @@ function mainMap() {
             dataInDict = dataPreprocessingMap(data, crime_type, yearStr);
 
             //Set input domain for color scale
-            color.domain([
-                d3.min(dataInDict, function(d) { return d.value; }),
-                d3.max(dataInDict, function(d) { return d.value; })
-            ]);
+            // color.domain([
+            //     d3.min(dataInDict, function(d) { return d.value; }),
+            //     d3.max(dataInDict, function(d) { return d.value; })
+            // ]);
 
             //Load in GeoJSON data
             d3.json("us-states.json", function(json) {
